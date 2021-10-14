@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <meta name="author" content="701b">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        a {
+          text-decoration: none;
+        }
+      
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .login-box {
+          height: 100px;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+        }
+        
+        .oauth-login-box {
+          display: flex;
+          width: 200px;
+          padding: 20px;
+          justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="">
+            <div class="login-box">
+                <input type="text" placeholder="ID">
+                <input type="text" placeholder="password">
+                <button>login</button>
+            </div>
+        </form>
+        <div class="oauth-login-box">
+            <a href="#">
+                <img src="../image/google-logo.png" alt="" width="40">
+            </a>
+            <a href="#">
+                <img src="../image/naver-logo.png" alt="" width="40">
+            </a>
+            <a href="/login/oauth-login">
+                <img src="../image/capstone-logo.png" alt="" width="40">
+            </a>
+        </div>
+    </div>
+</body>
+</html>

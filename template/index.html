@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Main</title>
     <meta name="author" content="701b">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,19 @@
 <body>
     <div class="container">
         <span>Main page</span><br>
+        
+        {% if isLogin %}
+        <div class="account-info-box">
+            <ul>
+                <li>ID: {{ id }}</li>
+                <li>Email: {{ email }}</li>
+                <li>Address: {{ address }}</li>
+            </ul>
+            <a href="/logout">logout</a>
+        </div>
+        {% else %}
         <a href="/login">Go to login</a>
+        {% endif %}
     </div>
 </body>
 </html>

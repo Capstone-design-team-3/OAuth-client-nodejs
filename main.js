@@ -1,31 +1,39 @@
-const express = require('express')
+const app_1 = require('./app')
 const request = require('request')
 const url = require('url')
-const app = express()
+const app = app_1.app
 const port = 3000
 
-app.use('/css', express.static('css'))
-app.use('/js', express.static('js'))
-app.use('/image', express.static('image'))
 
 app.get('/', (req, res) => {
-    console.log('RESPONSE GET /');
-    res.sendFile(__dirname + '/template/index.html')
+    res.locals.isLogin = app.locals.isLogin
+    res.locals.id = app.locals.id
+    res.locals.email = app.locals.email
+    res.locals.address = app.locals.address
+    res.render('index.html')
 })
 
 app.get('/login', (req, res) => {
-    console.log('RESPONSE GET /login');
-    res.sendFile(__dirname + '/template/login.html')
+    res.render('login.html')
+})
+
+app.get('/logout', (req, res) => {
+    app.locals.isLogin = false
+    app.locals.id = ""
+    app.locals.email = ""
+    app.locals.address = ""
+    
+    res.redirect(url.format({
+        pathname: 'http://localhost:3000'
+    }))
 })
 
 app.get('/login/oauth-login', (req, res) => {
-    console.log('RESPONSE GET /login/oauth-login');
-    console.log('REDIRECT TO http://localhost:9000/oauth/authorize');
     res.redirect(url.format({
         pathname: 'http://localhost:9000/oauth/authorize',
         query: {
             'response_type': 'code',
-            'client_id': 'user',
+            'client_id': 'client',
             'redirect_url': 'http://localhost:3000/login/oauth',
             'scope': 'read'
         }
@@ -33,12 +41,9 @@ app.get('/login/oauth-login', (req, res) => {
 })
 
 app.get('/login/oauth', (req, res) => {
-    console.log('RESPONSE GET /login/oauth');
-    console.log('code : ' + req.query['code'])
-    
     const code = req.query['code']
     const options = {
-        url: 'http://user:pass@localhost:9000/oauth/token',
+        url: 'http://client:secret@localhost:9000/oauth/token',
         method: 'POST',
         form: {
             'grant_type': 'authorization_code',
@@ -52,16 +57,29 @@ app.get('/login/oauth', (req, res) => {
         if (!error && response.statusCode === 200) {
             console.log('RESPONSE GET /login/oauth');
             const token = JSON.parse(body)['access_token']
+            const options = {
+                url: 'http://localhost:9090/account',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }
             
-            console.log('token : ' + token) // token가지고 resource 서버와 소통해서 계정 정보 가져오고 로그인 시키기
-            
-            res.redirect(url.format({
-                pathname: 'http://localhost:3000/'
-            }))
+            request(options, (error, response, body) => {
+                const accountInfo = JSON.parse(body)
+                
+                app.locals.isLogin = true
+                app.locals.id = accountInfo['userName']
+                app.locals.email = accountInfo['email']
+                app.locals.address = accountInfo['address']
+    
+                res.redirect(url.format({
+                    pathname: 'http://localhost:3000/'
+                }))
+            })
         }
     }
     
-    console.log('REQUEST POST http://user:pass@localhost:9000/oauth/token');
     request(options, callback)
 })
 

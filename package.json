@@ -5,15 +5,16 @@
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
+    "dev": "nodemon --watch / main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
-  },
-  "devDependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "nunjucks": "^3.2.3",
     "request": "^2.88.2"
   }
 }

@@ -33,10 +33,6 @@ class App {
     
     setLocals() {
         this.app.use((req, res, next) => {
-            this.app.locals.isLogin = false
-            this.app.locals.id = ""
-            this.app.locals.email = ""
-            this.app.locals.address = ""
             next()
         })
     }

@@ -102,6 +102,34 @@ app.get('/login/oauth-implicit', (req, res) => {
     }))
 })
 
+app.get('/login/oauth-implicit-token', (req, res) => {
+    // const token = REQ.HEADER
+    
+    console.log(req.header('Authorization'))
+    
+    // res.send(token)
+    // const options = {
+    //     url: 'http://localhost:9090/account',
+    //     method: 'GET',
+    //     headers: {
+    //         'Authorization': 'Bearer ' + token
+    //     }
+    // }
+    //
+    // request(options, (error, response, body) => {
+    //     const accountInfo = JSON.parse(body)
+    //
+    //     app.locals.isLogin = true
+    //     app.locals.id = accountInfo['userName']
+    //     app.locals.email = accountInfo['email']
+    //     app.locals.address = accountInfo['address']
+    //
+    //     res.redirect(url.format({
+    //         pathname: 'http://localhost:3000/'
+    //     }))
+    // })
+})
+
 app.get('/login/oauth-login-password', (req, res) => {
     const options = {
         url: 'http://client:secret@localhost:9000/oauth/token',

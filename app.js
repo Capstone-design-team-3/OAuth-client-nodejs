@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const nunjucks = require('nunjucks')
 const logger = require('morgan')
 
@@ -26,8 +27,7 @@ class App {
     }
     
     setStatic() {
-        this.app.use('/css', express.static('css'))
-        this.app.use('/js', express.static('js'))
+        this.app.use(express.static(path.join(__dirname, 'template')))
         this.app.use('/image', express.static('image'))
     }
     
